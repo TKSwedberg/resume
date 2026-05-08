@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tyler Swedberg // SOFTWARE ENGINEER</title>
+  
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=VT323&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  
+  <!-- STYLES -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <div id="theme-wrap">
+    <img id="umbreon-img" class="shiny-padding-fix" src="assets/images/umbreon8bit_shiny-Picsart-BackgroundRemover.png" alt="Theme Toggle">
+    <button id="theme-btn">◉ UMBREON MODE</button>
+  </div>
+
+  <div id="hp-bar-wrap">
+    <div>TYLER.HP</div>
+    <div id="hp-bar"><div id="hp-fill"></div></div>
+  </div>
+
+  <div id="sif-companion" title="Sif, the Great Grey Wolf">
+    <div id="sif-speech">Great grey swordsmanship awaits...</div>
+    <img id="sif-img" src="assets/images/sif.gif" alt="Sif">
+    <div id="sif-label">SIF // ALLY</div>
+  </div>
+
+  <div id="bonfire-wrap" onclick="lightBonfire()">
+    <canvas id="bonfire-canvas" width="64" height="72"></canvas>
+    <div id="bonfire-label">[ LIGHT BONFIRE ]</div>
+  </div>
+
+  <div id="death-overlay">
+    <canvas id="bonfire-big" width="128" height="144" style="image-rendering:pixelated;margin-bottom:0.5rem;"></canvas>
+    <div class="death-text">YOU DIED</div>
+    <div class="death-sub">// ARTORIAS'S LEGACY LIVES ON. UNKINDLED ONE.</div>
+    <div class="death-close" onclick="closeOverlay()">[ PRESS ANY KEY TO CONTINUE ]</div>
+  </div>
+
+  <div id="konami-flash"></div>
+
+  <div id="evo-popup">
+    <div id="evo-sprite" class="pkm-sprite"></div>
+    <div id="evo-label">FUECOCO EVOLVED!</div>
+  </div>
+
+  <div id="secret-corner" title="..."></div>
+
+  <header>
+    <div class="container">
+      <div class="header-inner fi">
+        
+        <div class="sprite-area">
+          <div id="main-sprite" class="pkm-sprite" onmouseenter="showHpBar()" onmouseleave="hideHpBar()"></div>
+          <div class="sprite-shadow"></div>
+          <div class="evo-stage" id="evo-stage-label">FUECOCO Lv.??</div>
+        </div>
+
+        <div class="header-text">
+          <div>
+            <h1>TYLER SWEDBERG<span class="online-tag">ONLINE</span></h1>
+          </div>
+          <div class="loc-line"><span>▸</span> Aurora, CO &nbsp;|&nbsp; Software Engineer</div>
+          <div class="contact-row">
+            <a href="mailto:tylerswedberg@gmail.com">tylerswedberg@gmail.com</a>
+            <a href="tel:8084944163">808-494-4163</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">GitHub</a>
+          </div>
+          <div class="bio-box">
+            <div id="bio-text"><span class="cur"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <div class="section fi">
+        <div class="slash"></div>
+        <div class="sec-head">
+          <span class="sec-tag">// RAID_LOG.EXE</span>
+          <span class="sec-title">Experience</span>
+        </div>
+        <div class="exp-card fi">
+          <div class="exp-head">
+            <span class="exp-org">DEPT. OF DEFENSE</span>
+            <span class="exp-date">10/2022 – PRESENT</span>
+          </div>
+          <div class="exp-role">Software Engineer</div>
+          <div class="exp-obj">Develop automated solutions for detecting security breaches in network operations</div>
+          <div class="exp-li">Spearheaded advanced binary scanning engine for early compromise detection</div>
+          <div class="exp-li">Architected real-time data pipelines with Apache Kafka and MongoDB for threat correlation</div>
+          <div class="exp-li">Built Vue.js dashboards surfacing network anomalies for security analysts</div>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">Pandas</span><span class="chip">Java</span>
+            <span class="chip">Apache Kafka</span><span class="chip">MongoDB</span><span class="chip">Minio</span><span class="chip">Vue.js</span>
+          </div>
+          <div>
+            <span class="award">★ CASH AWARD — JULY 2023</span>
+            <span class="award">★ TOAR RECOGNITION — JUNE 2024</span>
+          </div>
+        </div>
+        <div class="exp-card fi">
+          <div class="exp-head">
+            <span class="exp-org">UNIVERSAL HEALTH SERVICES</span>
+            <span class="exp-date">06/2021 – 09/2022</span>
+          </div>
+          <div class="exp-role">Associate Software Engineer</div>
+          <div class="exp-obj">Developed CAR/PAC web application request and approval system</div>
+          <div class="exp-li">Built MVC architecture using .NET and C# for enterprise healthcare workflows</div>
+          <div class="exp-li">Designed MSSQL schemas and maintained Azure DevOps CI/CD pipelines</div>
+          <div class="chips">
+            <span class="chip">.NET</span><span class="chip">MVC</span><span class="chip">C#</span>
+            <span class="chip">MSSQL</span><span class="chip">Azure DevOps</span><span class="chip">Bootstrap</span>
+          </div>
+        </div>
+        <div class="exp-card fi">
+          <div class="exp-head">
+            <span class="exp-org">U.S. EMBASSY TOKYO — DEPT. OF STATE</span>
+            <span class="exp-date">06/2016 – 08/2019</span>
+          </div>
+          <div class="exp-role">Information Service Center</div>
+          <div class="exp-obj">Impacted operations through network programming and systems automation</div>
+          <div class="exp-li">Programmed network switches and automated routine sysadmin tasks Embassy-wide</div>
+          <div class="exp-li">Databased and digitally catalogued all artwork throughout the Embassy complex</div>
+          <div class="exp-li">Operated in full Japanese-language professional environment for 3 years</div>
+        </div>
+      </div>
+
+      <div class="section fi">
+        <div class="slash"></div>
+        <div class="sec-head">
+          <span class="sec-tag">// TMS_HMS.EXE</span>
+          <span class="sec-title">Skill Tree</span>
+        </div>
+        <div class="skill-grid">
+          <div class="type-card">
+            <div class="type-badge t-fire">🔥 FIRE — Core Languages</div>
+            <div class="type-skills">
+              <span class="ts">Python</span><span class="ts">JavaScript</span><span class="ts">C#</span>
+              <span class="ts">Java</span><span class="ts">C</span><span class="ts">English</span><span class="ts">日本語</span>
+            </div>
+          </div>
+          <div class="type-card">
+            <div class="type-badge t-water">💧 WATER — Frontend/Web</div>
+            <div class="type-skills">
+              <span class="ts">Vue.js</span><span class="ts">jQuery</span><span class="ts">AJAX</span>
+              <span class="ts">HTML5</span><span class="ts">CSS3</span><span class="ts">Bootstrap</span>
+            </div>
+          </div>
+          <div class="type-card">
+            <div class="type-badge t-steel">⚙ STEEL — Infrastructure</div>
+            <div class="type-skills">
+              <span class="ts">GitLab</span><span class="ts">GitHub</span><span class="ts">MSSQL</span>
+              <span class="ts">MongoDB</span><span class="ts">Oracle</span><span class="ts">Linux</span><span class="ts">PowerShell</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section fi">
+        <div class="slash"></div>
+        <div class="sec-head">
+          <span class="sec-tag">// LOOT_DROP.DAT</span>
+          <span class="sec-title">Projects</span>
+        </div>
+        <div class="proj-grid">
+          <div class="proj-card">
+            <div class="proj-title">C# EMAILING SYSTEM</div>
+            <div class="proj-desc">ASP.NET framework system leveraging C# and stored procedures for robust database manipulation and automated communication pipelines.</div>
+            <div class="chips" style="margin-top:1rem"><span class="chip">ASP.NET</span><span class="chip">C#</span><span class="chip">SQL Stored Procs</span></div>
+          </div>
+          <div class="proj-card">
+            <div class="proj-title">RETURNING CITIZEN LEGAL FORMS</div>
+            <div class="proj-desc">Capstone project — Bootstrap-powered UI guiding returning citizens through locating and understanding the legal forms they need.</div>
+            <div class="chips" style="margin-top:1rem"><span class="chip">Bootstrap</span><span class="chip">HTML5</span><span class="chip">CSS3</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <span>// ARTORIAS'S LEGACY LIVES ON &nbsp;|&nbsp; WELCOME, UNKINDLED ONE.</span>
+      <br>
+      <span style="color:var(--text3); display:inline-block; margin-top:0.5rem;">↑↑↓↓←→←→BA to evolve &nbsp;|&nbsp; Find Sif &nbsp;|&nbsp; Light the bonfire</span>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="assets/js/scripts.js"></script>
+</body>
+</html>
