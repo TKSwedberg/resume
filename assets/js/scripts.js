@@ -29,9 +29,9 @@ umbreonImg.addEventListener('click', toggleTheme);
 // POKEMON SPRITE ANIMATION
 // ═══════════════════════════════════════════════════════
 const SPRITE_SHEETS = [
-  { name: 'FUECOCO', level: '??', src: 'assets/images/fuecoco sprite.png' },
-  { name: 'CROCALOR', level: '36', src: 'assets/images/crocolar_movements.png' },
-  { name: 'SKELEDIRGE', level: '58', src: 'assets/images/skeledirge_sprite.png' }
+  { name: 'FUECOCO', level: '5', src: 'assets/images/fuecoco sprite.png', maxHp: 100 },
+  { name: 'CROCALOR', level: '16', src: 'assets/images/crocolar_movements.png', maxHp: 200 },
+  { name: 'SKELEDIRGE', level: '36', src: 'assets/images/skeledirge_sprite.png', maxHp: 400 }
 ];
 let evoStage = 0;
 let pkmFrame = 0;
@@ -40,8 +40,10 @@ const pkmSpriteEl = document.getElementById('main-sprite');
 function updatePokemon() {
   pkmSpriteEl.style.backgroundImage = `url('${SPRITE_SHEETS[evoStage].src}')`;
   updateEvoLabel();
+  // Reset HP to current stage's max when evolving
+  currentHp = SPRITE_SHEETS[evoStage].maxHp;
+  updateHpUI();
 }
-updatePokemon();
 
 function updateEvoLabel() {
   document.getElementById('evo-stage-label').textContent = SPRITE_SHEETS[evoStage].name + ' Lv.' + SPRITE_SHEETS[evoStage].level;
@@ -77,17 +79,83 @@ function typeLoop() {
 }
 setTimeout(typeLoop, 900);
 
-// ── HP BAR ──
-function showHpBar() {
-  document.getElementById('hp-bar-wrap').classList.add('show');
-  setTimeout(() => {
-    document.getElementById('hp-fill').style.width = Math.floor(65 + Math.random()*35) + '%';
-  }, 100);
+// ── HP BAR LOGIC ──
+let currentHp = 100;
+let isDead = false;
+const hpBarWrap = document.getElementById('hp-bar-wrap');
+const hpFill = document.getElementById('hp-fill');
+const hpLabel = hpBarWrap.querySelector('div:first-child');
+
+function updateHpUI() {
+  const maxHp = SPRITE_SHEETS[evoStage].maxHp;
+  const hpPercent = (currentHp / maxHp) * 100;
+  hpFill.style.width = hpPercent + '%';
+  
+  if (currentHp <= 0 && !isDead) {
+    isDead = true;
+    hpBarWrap.classList.add('show');
+    hpFill.style.background = 'var(--gold)';
+    hpFill.style.width = '0%';
+    
+    let secondsLeft = 5;
+    const hpBar = document.getElementById('hp-bar');
+    
+    // Initial UI state
+    hpLabel.innerHTML = '<a href="https://tylerswedberg.github.io/CIS4296_TylerHomePage/" target="_blank" style="color:var(--gold); text-decoration:none; animation:tagBlink 1s infinite; display:block;">[ SYSTEM.RESTORED // ACCESS_LEGACY ]</a>';
+    
+    let timerOverlay = document.getElementById('hp-timer-text');
+    if (!timerOverlay) {
+      timerOverlay = document.createElement('div');
+      timerOverlay.id = 'hp-timer-text';
+      hpBar.appendChild(timerOverlay);
+    }
+    timerOverlay.textContent = `RESTORING IN ${secondsLeft}s...`;
+    
+    const countdown = setInterval(() => {
+      secondsLeft--;
+      if (secondsLeft > 0) {
+        timerOverlay.textContent = `RESTORING IN ${secondsLeft}s...`;
+      } else {
+        clearInterval(countdown);
+        // Reset everything
+        currentHp = SPRITE_SHEETS[evoStage].maxHp;
+        isDead = false;
+        hpLabel.textContent = 'TYLER.HP';
+        hpFill.style.background = ''; 
+        hpFill.style.width = '100%';
+        hpBarWrap.classList.remove('show');
+        if (timerOverlay) timerOverlay.remove();
+      }
+    }, 1000);
+  }
 }
-function hideHpBar() {
-  document.getElementById('hp-bar-wrap').classList.remove('show');
-  setTimeout(() => document.getElementById('hp-fill').style.width='100%', 400);
-}
+
+pkmSpriteEl.addEventListener('mouseenter', () => {
+  hpBarWrap.classList.add('show');
+});
+
+pkmSpriteEl.addEventListener('mouseleave', () => {
+  if (!isDead) {
+    hpBarWrap.classList.remove('show');
+  }
+});
+
+pkmSpriteEl.addEventListener('click', () => {
+  if (isDead) return;
+  
+  // Each click still does 20 dmg, but higher stages have more HP
+  currentHp = Math.max(0, currentHp - 20);
+  updateHpUI();
+  
+  // Shake effect
+  pkmSpriteEl.style.transition = 'none';
+  pkmSpriteEl.style.transform = 'translateX(5px)';
+  setTimeout(() => { pkmSpriteEl.style.transform = 'translateX(-5px)'; }, 50);
+  setTimeout(() => { pkmSpriteEl.style.transform = 'translateX(0)'; pkmSpriteEl.style.transition = ''; }, 100);
+});
+
+// Initial update
+updatePokemon();
 
 // ═══════════════════════════════════════════════════════
 // SIF INTERACTION
