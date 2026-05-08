@@ -39,7 +39,7 @@ body{
   font-size:18px; 
   line-height:1.6;
   overflow-x:hidden;
-  cursor:crosshair;
+  cursor:default;
 }
 /* SCANLINES */
 body::before{
