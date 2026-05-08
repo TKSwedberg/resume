@@ -9,7 +9,7 @@ const umbreonImg = document.getElementById('umbreon-img');
 function toggleTheme() {
   isGold = !isGold;
   document.documentElement.classList.toggle('gold-mode', isGold);
-  themeBtn.textContent = isGold ? '◉ MOONLIGHT MODE' : '◉ UMBREON MODE';
+  themeBtn.textContent = isGold ? '☀ UMBREON MODE' : '☾ MOONLIGHT MODE';
   
   if (isGold) {
     // Normal Umbreon (Gold mode)
@@ -160,24 +160,40 @@ updatePokemon();
 // ═══════════════════════════════════════════════════════
 // SIF INTERACTION
 // ═══════════════════════════════════════════════════════
-let sifClicked = false;
+let sifPeaceful = false;
 document.getElementById('sif-companion').addEventListener('click', () => {
-  if (sifClicked) return;
-  sifClicked = true;
-  
+  if (sifPeaceful) return;
+
+  if (!bonfireLit) {
+    // YOU DIED if bonfire not lit
+    document.getElementById('death-overlay').classList.add('active');
+    updateBigBonfire(); 
+    return;
+  }
+
+  sifPeaceful = true;
+  // ARTORIAS SPEAKS THROUGH SIF
   const speech = document.getElementById('sif-speech');
-  speech.textContent = "Artorias walks with you, Unkindled. Carry his legacy...";
+  speech.innerHTML = "<span style='color:var(--gold); font-weight:bold;'>ARTORIAS:</span> Sif... our guest is worthy. Thou hast done well, Unkindled one.";
   speech.style.opacity = '1';
   speech.style.transform = 'translateY(0)';
 
+  // Wait 2.8s before showing the popup
   setTimeout(() => {
-    const sc = document.getElementById('sif-companion');
-    sc.style.opacity = '0';
-    sc.style.transform = 'translateX(80px)';
-    sc.style.pointerEvents = 'none';
+    const artoriasPopup = document.getElementById('artorias-popup');
+    artoriasPopup.classList.add('active');
     
-    setTimeout(() => sc.style.display = 'none', 800);
-  }, 4500);
+    // Fade Sif away slowly after the popup appears
+    setTimeout(() => {
+      const sc = document.getElementById('sif-companion');
+      sc.style.opacity = '0';
+      sc.style.transform = 'translateX(80px)';
+      sc.style.pointerEvents = 'none';
+      setTimeout(() => {
+        if (sifPeaceful) sc.style.display = 'none';
+      }, 1000);
+    }, 2000);
+  }, 2800);
 });
 
 // ═══════════════════════════════════════════════════════
@@ -244,29 +260,37 @@ function updateBigBonfire() {
 }
 
 function lightBonfire() {
-  if(bonfireLit) return;
-  bonfireLit = true;
-  document.getElementById('bonfire-label').textContent = '[ BONFIRE LIT ]';
+  bonfireLit = !bonfireLit;
+  const label = document.getElementById('bonfire-label');
+  const sc = document.getElementById('sif-companion');
   
-  setTimeout(()=>{
-    document.getElementById('death-overlay').classList.add('active');
-    updateBigBonfire();
-    setInterval(updateBigBonfire, 180);
+  if (bonfireLit) {
+    label.textContent = '[ BONFIRE LIT ]';
+    document.body.classList.add('bonfire-lit');
+    console.log('%c🔥 BONFIRE LIT — THE DARK RECEDES', 'color:#ff6b35; font-weight:bold; font-size:14px;');
+  } else {
+    // EXTINGUISHED - Revert theme and hide Sif for good
+    label.textContent = '[ LIGHT BONFIRE ]';
+    document.body.classList.remove('bonfire-lit');
+    
+    sc.style.opacity = '0';
+    sc.style.transform = 'translateX(80px)';
+    sc.style.pointerEvents = 'none';
+    setTimeout(() => sc.style.display = 'none', 800);
 
-    const bw = document.getElementById('bonfire-wrap');
-    bw.style.opacity = '0';
-    bw.style.transform = 'translateY(20px)';
-    bw.style.pointerEvents = 'none';
-    setTimeout(() => bw.style.display = 'none', 600);
-
-  }, 600);
+    console.log('%c❄️ BONFIRE EXTINGUISHED — SIF HAS DEPARTED', 'color:#00d4ff; font-weight:bold; font-size:14px;');
+  }
 }
 
 function closeOverlay() {
   document.getElementById('death-overlay').classList.remove('active');
+  document.getElementById('artorias-popup').classList.remove('active');
 }
 document.addEventListener('keydown', e=>{
-  if(document.getElementById('death-overlay').classList.contains('active')) closeOverlay();
+  if(document.getElementById('death-overlay').classList.contains('active') || 
+     document.getElementById('artorias-popup').classList.contains('active')) {
+    closeOverlay();
+  }
 });
 document.getElementById('death-overlay').addEventListener('click', e=>{
   if(e.target===document.getElementById('death-overlay')) closeOverlay();
